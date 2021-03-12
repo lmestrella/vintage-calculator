@@ -1,0 +1,283 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap");
+@font-face {
+  /* Source: https://www.fontspace.com/digital-7-font-f7087 */
+  font-family: Digital;
+  src: url(./fonts/Digital7-1e1Z.ttf);
+}
+:root {
+  --clr-highlight: 221, 217, 204;
+  --clr-primary-l: 184, 177, 164;
+  --clr-primary-d: 126, 120, 112;
+  --clr-dark: 24, 24, 24;
+  --clr-shadow-overlay: 0, 0, 0;
+
+  --br-big: 1em;
+  --br-medium: 0.5em;
+  --br-small: 0.3em;
+  --br-smaller: 0.2em;
+
+  --default-gap: 2em;
+
+  --btn-shadow-height: 0.35em;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #525252;
+}
+.calc {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgb(var(--clr-primary-l)) 50%,
+    rgb(var(--clr-primary-d)) 100%
+  );
+  border: 1px solid rgb(var(--clr-highlight));
+  border-radius: var(--br-medium);
+  display: flex;
+  flex-direction: column;
+  width: 24em;
+  padding: var(--default-gap) 1.25em;
+}
+.calc::before,
+.calc::after {
+  content: "";
+  position: absolute;
+  display: block;
+  left: 0;
+  width: 100%;
+  height: 0;
+  border-radius: var(--br-medium);
+  filter: blur(1px);
+}
+.calc::before {
+  top: 0;
+  border-left: 1.5em solid transparent;
+  border-right: 1.5em solid transparent;
+  border-top: calc(var(--default-gap) + 0.5em) solid rgb(var(--clr-highlight));
+}
+.calc::after {
+  bottom: 0;
+  border-left: var(--default-gap) solid transparent;
+  border-right: var(--default-gap) solid transparent;
+  border-bottom: 4em solid rgb(var(--clr-primary-d));
+}
+.calc__upper {
+  position: relative;
+  width: 100%;
+  height: 12em;
+}
+.calc__screen-edge {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 5px solid rgb(var(--clr-highlight));
+  border-radius: var(--br-medium);
+  filter: blur(1px);
+}
+.calc__screen-edge::after {
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: calc(-1 * var(--default-gap) - 5px);
+  left: -0.5em;
+  right: -0.5em;
+  height: var(--default-gap);
+  background: linear-gradient(
+    180deg,
+    rgb(var(--clr-primary-d)) 0%,
+    rgb(var(--clr-highlight)) 50%,
+    rgb(var(--clr-primary-l)) 100%
+  );
+  border-radius: 1em;
+}
+.calc__screen {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2fr 5fr;
+  min-height: calc(100% - 10px);
+  margin: 5px;
+  padding: 1em 1em 1.5em;
+  background: rgb(var(--clr-dark));
+}
+.calc__label span {
+  color: white;
+  opacity: 0.5;
+  font-size: 0.7em;
+  letter-spacing: 0.1em;
+}
+.calc__lcd {
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+  background: #1d3025;
+  box-shadow: inset 0px 0.3em 3px 2px rgba(0, 0, 0, 0.8);
+  padding: 0 1em;
+}
+.calc__lcd-text {
+  font-family: "Digital", sans-serif;
+  font-size: 4rem;
+  color: rgb(41, 182, 41);
+}
+.calc__lower {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "numbers operations";
+  column-gap: 0.5em;
+  place-content: center;
+  height: 18em;
+  margin: var(--default-gap) 1em;
+  padding: 1em 2em;
+}
+.calc__lower::before {
+  content: "";
+  position: absolute;
+  display: block;
+  top: -2px;
+  right: -2px;
+  bottom: -2px;
+  left: -2px;
+  border-radius: var(--br-small);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgb(var(--clr-primary-l)) 100%
+  );
+  filter: blur(1px);
+}
+.calc__numbers,
+.calc__operations {
+  background: rgba(var(--clr-dark), 0.85);
+  border-radius: var(--br-small);
+  display: grid;
+  padding: 2px;
+  z-index: 999;
+}
+.calc__numbers {
+  grid-area: numbers;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas:
+    "seven seven eight eight nine nine"
+    "four four five five six six"
+    "one one two two three three"
+    "zero zero zero equals equals equals";
+}
+.calc__operations {
+  grid-area: operations;
+}
+.calc__numbers .calc__btn {
+  font-size: 1.5rem;
+}
+.calc__btn {
+  cursor: pointer;
+  position: relative;
+  display: grid;
+  place-content: center;
+  background: white;
+  border: 1px solid rgb(var(--clr-primary-l));
+  box-shadow: inset 0 0 1px var(--btn-shadow-height)
+    rgba(var(--clr-shadow-overlay), 0.1);
+  margin: 1px;
+  color: rgb(var(--clr-dark));
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  opacity: 1;
+  transition: 150ms opacity ease-out;
+}
+.calc__btn:hover {
+  opacity: 0.8;
+}
+.calc__btn::before,
+.calc__btn::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border-left: var(--btn-shadow-height) solid transparent;
+  border-right: var(--btn-shadow-height) solid transparent;
+}
+.calc__btn::before {
+  top: 0;
+  border-top: var(--btn-shadow-height) solid white;
+}
+.calc__btn::after {
+  bottom: 0;
+  border-bottom: var(--btn-shadow-height) solid
+    rgba(var(--clr-shadow-overlay), 0.135);
+}
+.calc__numbers .calc__btn:nth-of-type(1) {
+  grid-area: seven;
+}
+.calc__numbers .calc__btn:nth-of-type(2) {
+  grid-area: eight;
+}
+.calc__numbers .calc__btn:nth-of-type(3) {
+  grid-area: nine;
+}
+.calc__numbers .calc__btn:nth-of-type(4) {
+  grid-area: four;
+}
+.calc__numbers .calc__btn:nth-of-type(5) {
+  grid-area: five;
+}
+.calc__numbers .calc__btn:nth-of-type(6) {
+  grid-area: six;
+}
+.calc__numbers .calc__btn:nth-of-type(7) {
+  grid-area: one;
+}
+.calc__numbers .calc__btn:nth-of-type(8) {
+  grid-area: two;
+}
+.calc__numbers .calc__btn:nth-of-type(9) {
+  grid-area: three;
+}
+.calc__numbers .calc__btn:nth-of-type(10) {
+  grid-area: zero;
+}
+.calc__numbers .calc__btn:nth-of-type(11) {
+  grid-area: equals;
+}
+/* Below needs refactoring */
+.calc__btn--blue,
+.calc__btn--red {
+  color: white;
+}
+.calc__btn--blue {
+  background: rgb(45, 137, 212);
+  border: 1px solid rgb(23, 127, 212);
+}
+.calc__btn--red {
+  background: rgb(221, 89, 71);
+  border: 1px solid rgb(224, 98, 81);
+}
+.calc__btn--blue::before,
+.calc__btn--red::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: var(--btn-shadow-height);
+}
+.calc__btn--blue::before {
+  border-top: var(--btn-shadow-height) solid rgb(79, 168, 240);
+}
+.calc__btn--red::before {
+  border-top: var(--btn-shadow-height) solid rgb(247, 117, 99);
+}
+.calc__operations .calc__btn {
+  font-size: 1.15rem;
+}
